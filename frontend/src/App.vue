@@ -1,11 +1,9 @@
-<script setup lang="ts">
-
-
-</script>
-
 <template>
-  <h1>Hello</h1>
-
+  <router-view />
 </template>
+
+<script setup lang="ts">
+// No setup needed here
+</script>
 
 <style scoped></style>
