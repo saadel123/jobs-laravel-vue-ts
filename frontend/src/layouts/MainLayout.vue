@@ -4,11 +4,30 @@
         <v-app-bar color="green" dark app>
             <v-toolbar-title>Vue Jobs</v-toolbar-title>
             <v-spacer />
+            <!--
+                Vuetify's v-btn with 'to' prop:
+                - Automatically handles routing like RouterLink
+                - No need for manual navigate calls
+                - Includes built-in active state styling
+            -->
             <v-btn text to="/">Home</v-btn>
             <v-btn text to="/jobs">Jobs</v-btn>
             <v-btn text to="/add-job">Add Job</v-btn>
-        </v-app-bar>
+            <!--
+                Equivalent vanilla Vue implementation would be:
+                <RouterLink to="/jobs" v-slot="{ navigate, isActive }">
+                    <button
+                        @click="navigate"
+                        :class="{ 'active-button': isActive }"
+                        class="text-button"
+                    >
+                        Jobs
+                    </button>
+                </RouterLink>
 
+                Vuetify does all this automatically!
+            -->
+        </v-app-bar>
 
         <!-- Main Content -->
         <v-main>
