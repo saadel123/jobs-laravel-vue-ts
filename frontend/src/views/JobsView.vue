@@ -1,10 +1,10 @@
-<template>
-   <JobListings ></JobListings>
-</template>
-
 <script setup lang="ts">
 import JobListings from '@/components/JobListings.vue'
 </script>
+
+<template>
+   <JobListings ></JobListings>
+</template>
 
 <style scoped>
 .v-card {
