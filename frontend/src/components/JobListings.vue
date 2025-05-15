@@ -1,19 +1,26 @@
 <script setup lang="ts">
 import jobsData from '@/jobs.json'
-import { ref } from "vue";
-import JobListing from './JobListing.vue';
+import { ref, computed } from "vue"
+import JobListing from './JobListing.vue'
 
-// Access the jobs array from the JSON data
-const jobs = ref(jobsData.jobs);
-// console.log(jobs.value)
-defineProps({
-    limit: Number,
-    showButton: {
-        type: Boolean,
-        default: false
-    }
-});
+// Props
+const props = defineProps({
+  limit: Number,
+  showButton: {
+    type: Boolean,
+    default: false
+  }
+})
+
+// Reactive jobs data
+const jobs = ref(jobsData.jobs)
+
+// Computed filtered jobs
+const filteredJobs = computed(() => {
+  return props.limit ? jobs.value.slice(0, props.limit) : jobs.value
+})
 </script>
+
 
 <template>
     <v-sheet color="green-lighten-5" class="py-10">
@@ -24,7 +31,7 @@ defineProps({
             <v-row class="justify-center">
                 <v-col cols="12" md="10">
                     <v-row>
-                        <JobListing v-for="job in jobs.slice(limit || jobs.length)" :key="job.id" :job="job">
+                        <JobListing v-for="job in filteredJobs" :key="job.id" :job="job">
                         </JobListing>
                     </v-row>
                 </v-col>

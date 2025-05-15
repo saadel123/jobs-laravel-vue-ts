@@ -4,6 +4,7 @@ import JobsView from "../views/JobsView.vue";
 import JobDetailsView from "../views/JobDetailsView.vue";
 import AddJobPage from "../views/AddJobPage.vue";
 import MainLayout from "../layouts/MainLayout.vue";
+import NotFoundView from "../views/NotFoundView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,6 +57,18 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: "/:catchAll(.*)",
+      component: MainLayout,
+      children: [
+        {
+          path: "", // catches everything under /:catchAll
+          name: "NotFound",
+          component: NotFoundView,
+        },
+      ],
+    }
+
   ],
 });
 
