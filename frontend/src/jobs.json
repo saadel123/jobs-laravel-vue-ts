@@ -1,14 +1,14 @@
 {
   "jobs": [
     {
-      "title": "Senior Vue Dev",
       "type": "Full-Time",
-      "location": "Boston, MA",
-      "description": "We are seeking a talented Front-End Developer to join our team in Boston, MA. The ideal candidate will have strong skills in HTML, CSS, and JavaScript, with experience working with modern JavaScript frameworks such as Vue or Angular.",
+      "title": "Senior Vue Dev ",
+      "description": "We are seeking a talented Front-End Developer to join our team in Boston, MA. The ideal candidate will have strong skills in HTML, CSS, and JavaScript, with experience working with modern JavaScript frameworks such as Vue or Angular. ",
       "salary": "$90K - $100K",
+      "location": "Boston, MA",
       "company": {
         "name": "NewTek Solutions",
-        "description": "NewTek Solutions is a leading technology company specializing in web development and digital solutions. We pride ourselves on delivering high-quality products and services to our clients while fostering a collaborative and innovative work environment.",
+        "description": "NewTek Solutions is a leading technology company specializing in web development and digital solutions. We pride ourselves on delivering high-quality products and services to our clients while fostering a collaborative and innovative work environment. ",
         "contactEmail": "contact@teksolutions.com",
         "contactPhone": "555-555-5555"
       },
@@ -113,17 +113,101 @@
       }
     },
     {
-      "id": "28c3",
-      "type": "Part-Time",
-      "title": "Jeremy Hutchinson",
-      "description": "Ipsam mollit sunt au",
-      "salary": "Under $50K",
-      "location": "Voluptas in possimus",
+      "id": "a506",
+      "type": "Full-Time",
+      "title": "Cain Estrada",
+      "description": "Magni in dicta cupid",
+      "salary": "$50K - $60K",
+      "location": "Ea aliqua Consequun",
       "company": {
-        "name": "Thornton and Little Associates",
-        "description": "Rerum fugiat magni u",
-        "contactEmail": "peci@mailinator.com",
-        "contactPhone": "+1 (138) 116-4908"
+        "name": "Sharpe Dudley Co",
+        "description": "Lorem porro reiciend",
+        "contactEmail": "myba@mailinator.com",
+        "contactPhone": "+1 (856) 599-7508"
+      }
+    },
+    {
+      "id": "5d44",
+      "type": "Part-Time",
+      "title": "Sylvester Boone",
+      "description": "Recusandae Omnis de",
+      "salary": "$50K - $60K",
+      "location": "Aperiam doloremque m",
+      "company": {
+        "name": "Newton Young Co",
+        "description": "Recusandae Culpa d",
+        "contactEmail": "lekedufu@mailinator.com",
+        "contactPhone": "+1 (247) 578-7471"
+      }
+    },
+    {
+      "id": "d5c0",
+      "type": "Remote",
+      "title": "Ivan Johnston",
+      "description": "Modi ea eaque tenetu",
+      "salary": "Under $50K",
+      "location": "Quae enim consequat",
+      "company": {
+        "name": "Glenn Bender Inc",
+        "description": "Esse aut ipsam place",
+        "contactEmail": "foni@mailinator.com",
+        "contactPhone": "+1 (796) 386-4401"
+      }
+    },
+    {
+      "id": "6172",
+      "type": "Part-Time",
+      "title": "Eric Howard",
+      "description": "Iure ad amet animi",
+      "salary": "$60K - $70K",
+      "location": "Quod omnis iste sunt",
+      "company": {
+        "name": "Sargent Chapman Co",
+        "description": "Est occaecat laborum",
+        "contactEmail": "foxih@mailinator.com",
+        "contactPhone": "+1 (935) 757-6998"
+      }
+    },
+    {
+      "id": "c7da",
+      "type": "Internship",
+      "title": "Cruz Rowland",
+      "description": "Perspiciatis ab dol",
+      "salary": "$50K - $60K",
+      "location": "Nihil ad odio quia s",
+      "company": {
+        "name": "Lucas Delaney Trading",
+        "description": "Velit quos deleniti",
+        "contactEmail": "jyby@mailinator.com",
+        "contactPhone": "+1 (244) 816-2787"
+      }
+    },
+    {
+      "id": "2ead",
+      "type": "Remote",
+      "title": "Willa Mckee",
+      "description": "Tempor autem duis si",
+      "salary": "$60K - $70K",
+      "location": "Veniam eveniet ali",
+      "company": {
+        "name": "Michael Mcgee Plc",
+        "description": "Accusamus magna inci",
+        "contactEmail": "sexeqaxeto@mailinator.com",
+        "contactPhone": "+1 (359) 149-4908"
+      }
+    },
+    {
+      "id": "720d",
+      "type": "Part-Time",
+      "title": "Expedita culpa iust sdsdf",
+      "description": "Occaecat pariatur R sdfsdfsdf",
+      "salary": "$60K - $70K",
+      "location": "Ipsum eaque voluptas",
+      "company": {
+        "name": "Brock and Newton Associates",
+        "description": "Atque fugit consect sdfsd",
+        "contactEmail": "wymyjedidi@mailinator.com",
+        "contactPhone": "+1 (939) 338-7367"
       }
     }
   ]

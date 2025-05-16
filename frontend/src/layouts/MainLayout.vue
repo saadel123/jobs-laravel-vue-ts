@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import Toastr from '@/components/Toastr.vue';
+</script>
+
 <template>
     <v-app>
         <!-- Navigation Bar -->
@@ -12,7 +16,7 @@
             -->
             <v-btn text to="/">Home</v-btn>
             <v-btn text to="/jobs">Jobs</v-btn>
-            <v-btn text to="/add-job">Add Job</v-btn>
+            <v-btn text to="/jobs/add">Add Job</v-btn>
             <!--
                 Equivalent vanilla Vue implementation would be:
                 <RouterLink to="/jobs" v-slot="{ navigate, isActive }">
@@ -33,6 +37,8 @@
         <v-main>
             <v-container>
                 <router-view />
+                <!-- Global Snackbar -->
+                <Toastr></Toastr>
             </v-container>
         </v-main>
 
@@ -45,10 +51,6 @@
     </v-app>
 </template>
 
-<script setup lang="ts">
-// No setup needed for the layout
-</script>
-
-<style scoped>
+<style scoped lang="ts">
 /* Optional: Custom Styles */
 </style>

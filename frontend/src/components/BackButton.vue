@@ -1,6 +1,8 @@
-<script setup></script>
+<script setup lang="ts">
+// No props needed for this component
+</script>
+
 <template>
-    <!-- Go Back -->
     <v-container>
         <v-btn to="/jobs" color="green-darken-2" variant="text" class="px-0 text-none">
             <v-icon left>mdi-arrow-left</v-icon>

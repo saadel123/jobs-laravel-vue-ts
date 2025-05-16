@@ -4,6 +4,10 @@ import axios from 'axios'
 import type { Job } from "@/types/job"
 import { useRoute } from 'vue-router'
 import BackButton from '@/components/BackButton.vue'
+import router from '@/router';
+import { useSnackbar } from '@/composables/useSnackbar';
+
+const { trigger } = useSnackbar();
 
 const job = ref<Job | null>(null)
 const isLoading = ref(true)
@@ -11,6 +15,20 @@ const isLoading = ref(true)
 const route = useRoute()
 const jobId = route.params.id
 
+
+const deleteJob = async () => {
+    try {
+        const confirm = window.confirm('Are you sure you want to delete this job?')
+        if (confirm) {
+            const response = await axios.delete(`/api/jobs/${jobId}`)
+            trigger("Job deleted successfully", "red");
+            router.push(`/jobs`);
+        }
+    } catch (error) {
+        console.error('Error deleting job:', error);
+        trigger("Job not deleted", "red");
+    }
+}
 onMounted(async () => {
     try {
         const response = await axios.get(`/api/jobs/${jobId}`)
@@ -25,7 +43,7 @@ onMounted(async () => {
 
 <template>
     <v-container class="py-6">
-        <BackButton></BackButton>
+        <BackButton />
         <v-row class="bg-green-50 py-10">
             <v-col cols="12" md="8">
                 <!-- Loading Skeleton -->
@@ -93,8 +111,8 @@ onMounted(async () => {
                     <v-card class="mt-6">
                         <v-card-title class="text-xl font-weight-bold">Manage Job</v-card-title>
                         <v-card-text>
-                            <v-btn :to="`/job/edit/${job.id}`" color="green" class="w-full me-4" large>Edit Job</v-btn>
-                            <v-btn color="red" class="w-full" large>Delete Job</v-btn>
+                            <v-btn :to="`/jobs/edit/${job.id}`" color="green" class="w-full me-4" large>Edit Job</v-btn>
+                            <v-btn @click="deleteJob" color="red" class="w-full" large>Delete Job</v-btn>
                         </v-card-text>
                     </v-card>
                 </template>

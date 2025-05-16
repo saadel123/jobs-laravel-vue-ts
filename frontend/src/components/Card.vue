@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { defineProps } from "vue";
+//no need to import defineporps in vue3.3+
+// import { defineProps } from "vue";
 defineProps({
     bg: {
         type: String,
