@@ -14,7 +14,7 @@ export default defineConfig({
                 target: "http://localhost:8000", // Proxy requests to the API server running on localhost:8000
                 changeOrigin: true, // Change the origin of the request to the target server
                 secure: false, // Disable SSL verification for development purposes
-                rewrite: (path) => path.replace(/^\/api/, ''),
+                // rewrite: (path) => path.replace(/^\/api/, ''),
             },
         },
     },

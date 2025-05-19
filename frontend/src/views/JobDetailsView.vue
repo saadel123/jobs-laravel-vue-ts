@@ -100,10 +100,10 @@ onMounted(async () => {
                             <v-divider class="my-4" />
 
                             <h3 class="text-xl">Contact Email:</h3>
-                            <v-chip class="my-2" color="green" dark>{{ job.company.contactEmail }}</v-chip>
+                            <v-chip class="my-2" color="green" dark>{{ job.company.contact_email }}</v-chip>
 
                             <h3 class="text-xl">Contact Phone:</h3>
-                            <v-chip class="my-2" color="green" dark>{{ job.company.contactPhone }}</v-chip>
+                            <v-chip class="my-2" color="green" dark>{{ job.company.contact_phone }}</v-chip>
                         </v-card-text>
                     </v-card>
 
