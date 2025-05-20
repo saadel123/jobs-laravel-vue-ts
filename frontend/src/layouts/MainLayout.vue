@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import Toastr from '@/components/Toastr.vue';
+import { useAuthStore } from '@/stores/auth';// Import the authentication store to manage auth state
+
+const authStore = useAuthStore();
 </script>
 
 <template>
@@ -17,6 +20,10 @@ import Toastr from '@/components/Toastr.vue';
             <v-btn text to="/">Home</v-btn>
             <v-btn text to="/jobs">Jobs</v-btn>
             <v-btn text to="/jobs/add">Add Job</v-btn>
+            <v-btn v-if="authStore.isAuthenticated" @click="authStore.logout" color="white" variant="outlined"
+                class="text-white" :loading="authStore.loggingOut">
+                Logout
+            </v-btn>
             <!--
                 Equivalent vanilla Vue implementation would be:
                 <RouterLink to="/jobs" v-slot="{ navigate, isActive }">

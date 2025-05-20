@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
 import type { Job } from "@/types/job"
 import { useRoute } from 'vue-router'
 import BackButton from '@/components/BackButton.vue'
 import router from '@/router';
 import { useSnackbar } from '@/composables/useSnackbar';
+import api from '../api';
+
 
 const { trigger } = useSnackbar();
 
@@ -20,7 +21,7 @@ const deleteJob = async () => {
     try {
         const confirm = window.confirm('Are you sure you want to delete this job?')
         if (confirm) {
-            const response = await axios.delete(`/api/jobs/${jobId}`)
+            const response = await api.delete(`/jobs/${jobId}`)
             trigger("Job deleted successfully", "red");
             router.push(`/jobs`);
         }
@@ -31,7 +32,7 @@ const deleteJob = async () => {
 }
 onMounted(async () => {
     try {
-        const response = await axios.get(`/api/jobs/${jobId}`)
+        const response = await api.get(`/jobs/${jobId}`)
         job.value = response.data
     } catch (error) {
         console.error("Error fetching job: " + error)

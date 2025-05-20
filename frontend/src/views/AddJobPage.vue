@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import axios from 'axios';
 import router from '@/router';
 import { useSnackbar } from '@/composables/useSnackbar';
 import JobForm from '@/components/JobForm.vue';
 import type { Job } from '@/types/job';
+import api from '../api';
+
 
 const { trigger } = useSnackbar();
 const form = ref<Job>({
@@ -14,7 +15,7 @@ const form = ref<Job>({
 
 const submitForm = async (data: Job) => {
     try {
-        const res = await axios.post('/api/jobs', data);
+        const res = await api.post('/jobs', data);
         trigger("Job created successfully");
         router.push(`/jobs/${res.data.id}`);
     } catch {

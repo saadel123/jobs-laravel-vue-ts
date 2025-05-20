@@ -2,8 +2,8 @@
 //Here am consuming static data from a json file
 import { ref, computed, onMounted } from "vue"
 import JobListing from './JobListing.vue'
-import axios from 'axios'
 import type { Job } from "@/types/job"
+import api from '../api';
 
 // Props
 const props = defineProps({
@@ -23,7 +23,9 @@ const filteredJobs = computed(() => {
 
 onMounted(async () => {
     try {
-        const response = await axios.get("/api/jobs")
+        //No need for axios now because am using api with pinia auth
+        // const response = await axios.get("/api/jobs")
+        const response = await api.get("/jobs")
         jobs.value = response.data
     } catch (error) {
         console.error("Error Fetching jobs:" + error)

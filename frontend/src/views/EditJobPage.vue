@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
 import { useSnackbar } from '@/composables/useSnackbar';
 import JobForm from '@/components/JobForm.vue';
 import type { Job } from '@/types/job';
+import api from '../api';
+
 
 const { trigger } = useSnackbar();
 const route = useRoute();
@@ -18,7 +19,7 @@ const form = ref<Job>({
 
 const fetchJob = async () => {
     try {
-        const res = await axios.get(`/api/jobs/${jobId}`);
+        const res = await api.get(`/jobs/${jobId}`);
         form.value = res.data;
     } catch {
         trigger("Failed to load job", 'error');
@@ -29,7 +30,7 @@ const fetchJob = async () => {
 
 const submitForm = async (data: Job) => {
     try {
-        await axios.put(`/api/jobs/${jobId}`, data);
+        await api.put(`/jobs/${jobId}`, data);
         trigger("Job updated successfully");
         router.push(`/jobs/${jobId}`);
     } catch {
