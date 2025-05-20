@@ -13,7 +13,7 @@ const jobId = route.params.id;
 const isLoading = ref(true);
 const form = ref<Job>({
     type: '', title: '', description: '', salary: '', location: '',
-    company: { name: '', description: '', contactEmail: '', contactPhone: '' },
+    company: { name: '', description: '', contact_email: '', contact_phone: '' },
 });
 
 const fetchJob = async () => {

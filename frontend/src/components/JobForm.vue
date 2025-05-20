@@ -57,9 +57,9 @@ const onSubmit = async () => {
                     :rules="[rules.required]" class="mb-4" />
                 <v-textarea v-model="localForm.company.description" label="Company Description" variant="outlined"
                     rows="4" :rules="[rules.required]" class="mb-4" />
-                <v-text-field v-model="localForm.company.contactEmail" label="Contact Email" type="email"
+                <v-text-field v-model="localForm.company.contact_email" label="Contact Email" type="email"
                     variant="outlined" :rules="[rules.required, rules.email]" class="mb-4" />
-                <v-text-field v-model="localForm.company.contactPhone" label="Contact Phone" type="tel"
+                <v-text-field v-model="localForm.company.contact_phone" label="Contact Phone" type="tel"
                     variant="outlined" class="mb-4" />
 
                 <v-btn type="submit" color="green-darken-2" size="large" block class="text-white">

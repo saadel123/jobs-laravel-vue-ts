@@ -30,16 +30,16 @@ class JobController extends Controller
             'location' => 'required|string',
             'company.name' => 'required|string',
             'company.description' => 'required|string',
-            'company.contactEmail' => 'required|email',
-            'company.contactPhone' => 'nullable|string',
+            'company.contact_email' => 'required|email',
+            'company.contact_phone' => 'nullable|string',
         ]);
 
         $company = Company::create([
-            'user_id' => auth()->id(),
+            'user_id' => 1,
             'name' => $validated['company']['name'],
             'description' => $validated['company']['description'],
-            'contact_email' => $validated['company']['contactEmail'],
-            'contact_phone' => $validated['company']['contactPhone'] ?? null,
+            'contact_email' => $validated['company']['contact_email'],
+            'contact_phone' => $validated['company']['contact_phone'] ?? null,
         ]);
 
         $job = $company->jobs()->create($validated);
@@ -69,8 +69,8 @@ class JobController extends Controller
             'location' => 'required|string',
             'company.name' => 'required|string',
             'company.description' => 'required|string',
-            'company.contactEmail' => 'required|email',
-            'company.contactPhone' => 'nullable|string',
+            'company.contact_email' => 'required|email',
+            'company.contact_phone' => 'nullable|string',
         ]);
 
         $job->update($validated);
@@ -78,8 +78,8 @@ class JobController extends Controller
         $job->company->update([
             'name' => $validated['company']['name'],
             'description' => $validated['company']['description'],
-            'contact_email' => $validated['company']['contactEmail'],
-            'contact_phone' => $validated['company']['contactPhone'] ?? null,
+            'contact_email' => $validated['company']['contact_email'],
+            'contact_phone' => $validated['company']['contact_phone'] ?? null,
         ]);
 
         return response()->json($job->load('company'));
