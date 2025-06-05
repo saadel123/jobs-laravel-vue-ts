@@ -41,7 +41,7 @@ const register = async () => {
 
 <template>
     <v-container class="fill-height d-flex align-center justify-center">
-        <v-card class="mx-auto auth-card pa-6 rounded-lg" width="500" elevation="4">
+        <v-card class="mx-auto auth-card pa-6 rounded-lg" width="600" elevation="4">
             <v-card-title class="text-center py-8">
                 <v-icon size="48" color="green-darken-2 account-circle" class="mr-3">mdi-account-plus</v-icon>
                 <span class="text-h3 font-weight-bold primary--text">Create Account</span>

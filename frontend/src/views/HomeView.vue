@@ -7,7 +7,7 @@ import JobListings from "@/components/JobListings.vue";
     <v-container class="pa-0">
         <HomeCard></HomeCard>
         <!-- Browse Jobs Section -->
-        <JobListings :limit="3" :showButton="true"></JobListings>
+        <JobListings :limit="3" :showButton="true" :filterButton="false"></JobListings>
         <!-- View All Jobs Button -->
     </v-container>
 </template>
