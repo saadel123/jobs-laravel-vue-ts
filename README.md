@@ -1,7 +1,7 @@
 
 # Job Board SPA - Laravel & Vue.js
 
-![Project Banner](https://raw.githubusercontent.com/saadel123/jobs-laravel-vue-ts/refs/heads/main/public/laravel-vue-jobs.gif)
+![Project Banner](https://raw.githubusercontent.com/saadel123/jobs-laravel-vue-ts/refs/heads/main/public/laravel-vue-job.gif)
 
 A modern, responsive Job Board Single Page Application built with Laravel and Vue. It features user authentication, CRUD functionality, and a clean UI with dark mode support.
 
