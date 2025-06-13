@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import type { Job } from "@/types/job"
 import { useRoute, useRouter } from 'vue-router'
 import BackButton from '@/components/BackButton.vue'
 import { useSnackbar } from '@/composables/useSnackbar'
 import api from '../api'
 import { useTheme } from 'vuetify'
+import { useAuthStore } from '@/stores/auth'
+import { getJobTypeColor } from '@/utils/job';
+
 
 const theme = useTheme()
 const { trigger } = useSnackbar()
@@ -14,6 +17,7 @@ const router = useRouter()
 const job = ref<Job | null>(null)
 const isLoading = ref(true)
 const jobId = route.params.id
+const auth = useAuthStore()
 
 const deleteJob = async () => {
     try {
@@ -41,26 +45,32 @@ const confirmDialog = (title: string, message: string, type: string) => {
     })
 }
 
+const isOwner = computed(() => {
+    return job.value?.company?.user_id === auth.user?.id
+})
+
 onMounted(async () => {
     try {
-        const response = await api.get(`/jobs/${jobId}`)
-        job.value = response.data
+        await auth.fetchUser();
+        //Type-Safety in API Response
+        const response = await api.get<Job>(`/jobs/${jobId}`);
+        job.value = response.data;
     } catch (error) {
-        console.error("Error fetching job:", error)
-        trigger("Failed to load job details", "error")
-        router.push('/jobs')
+        console.error("Error fetching job:", error);
+        trigger("Failed to load job details", "error");
+        router.push('/jobs');
     } finally {
-        isLoading.value = false
+        isLoading.value = false;
     }
-})
+});
+
 </script>
 
 <template>
     <v-container class="py-6">
         <BackButton />
 
-        <v-sheet
-            class="py-10 rounded-lg">
+        <v-sheet class="py-10 rounded-lg">
             <v-row>
                 <!-- Main Content Column -->
                 <v-col cols="12" md="8" class="pe-md-6">
@@ -174,7 +184,7 @@ onMounted(async () => {
                         </v-card>
 
                         <!-- Manage Job -->
-                        <v-card
+                        <v-card v-if="isOwner"
                             :class="{ 'hover-card-dark': theme.global.current.value.dark, 'hover-card': !theme.global.current.value.dark }">
                             <v-card-title class="d-flex align-center">
                                 <v-icon :color="theme.global.current.value.dark ? 'blue-lighten-2' : 'green-darken-2'"
@@ -201,18 +211,6 @@ onMounted(async () => {
         </v-sheet>
     </v-container>
 </template>
-
-<script lang="ts">
-function getJobTypeColor(type: string): string {
-    const colors: Record<string, string> = {
-        'Full-Time': 'blue',
-        'Part-Time': 'orange',
-        'Remote': 'green',
-        'Internship': 'purple'
-    }
-    return colors[type] || 'grey'
-}
-</script>
 
 <style scoped>
 .hover-card {

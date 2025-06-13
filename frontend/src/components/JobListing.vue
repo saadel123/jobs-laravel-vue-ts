@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import type { Job } from '@/types/job'
+import { getJobTypeColor } from '@/utils/job';
 //We can use Type job in this way:
 
 // const props = defineProps({
@@ -22,15 +23,6 @@ const truncatedDescription = computed(() => {
         : `${props.job.description.substring(0, 100)}${props.job.description.length > 100 ? '...' : ''}`
 })
 
-const getTypeColor = (type: string) => {
-    const colors: Record<string, string> = {
-        'Full-Time': 'blue',
-        'Part-Time': 'orange',
-        'Remote': 'green',
-        'Internship': 'purple'
-    }
-    return colors[type] || 'grey'
-}
 </script>
 
 <template>
@@ -38,7 +30,7 @@ const getTypeColor = (type: string) => {
         <v-card class="pa-4 rounded-lg h-100 d-flex flex-column"
             :class="{ 'hover-card': !$vuetify.theme.current.dark, 'hover-card-dark': $vuetify.theme.current.dark }">
             <!-- Job Type Badge -->
-            <v-chip small :color="getTypeColor(job.type)" class="mb-3 align-self-start" text-color="white">
+            <v-chip small :color="getJobTypeColor(job.type)" class="mb-3 align-self-start" text-color="white">
                 {{ job.type }}
             </v-chip>
 

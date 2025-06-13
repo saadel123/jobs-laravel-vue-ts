@@ -6,12 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Job;
 use App\Models\Company;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class JobController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
         return Job::with('company')->get();
@@ -34,17 +39,20 @@ class JobController extends Controller
             'company.contact_phone' => 'nullable|string',
         ]);
 
-        $company = Company::create([
-            'user_id' => 1,
-            'name' => $validated['company']['name'],
-            'description' => $validated['company']['description'],
-            'contact_email' => $validated['company']['contact_email'],
-            'contact_phone' => $validated['company']['contact_phone'] ?? null,
-        ]);
+        $job = DB::transaction(function () use ($validated) {
+            $company = Company::create([
+                'user_id' => Auth::id(),
+                'name' => $validated['company']['name'],
+                'description' => $validated['company']['description'],
+                'contact_email' => $validated['company']['contact_email'],
+                'contact_phone' => $validated['company']['contact_phone'] ?? null,
+            ]);
 
-        $job = $company->jobs()->create($validated);
+            return $company->jobs()->create($validated);
+        });
 
         return response()->json($job->load('company'), 201);
+
     }
     /**
      * Display the specified resource.
@@ -59,7 +67,9 @@ class JobController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $job = Job::findOrFail($id);
+        $job = Job::with('company')->findOrFail($id);
+
+        $this->authorize('update', $job);
 
         $validated = $request->validate([
             'type' => 'required|string',
@@ -73,17 +83,23 @@ class JobController extends Controller
             'company.contact_phone' => 'nullable|string',
         ]);
 
-        $job->update($validated);
+        // Database transaction for atomic updates
+        DB::transaction(function () use ($job, $validated) {
+            // Update job
+            $job->update($validated);
 
-        $job->company->update([
-            'name' => $validated['company']['name'],
-            'description' => $validated['company']['description'],
-            'contact_email' => $validated['company']['contact_email'],
-            'contact_phone' => $validated['company']['contact_phone'] ?? null,
-        ]);
+            // Update associated company
+            $job->company()->update([
+                'name' => $validated['company']['name'],
+                'description' => $validated['company']['description'],
+                'contact_email' => $validated['company']['contact_email'],
+                'contact_phone' => $validated['company']['contact_phone'] ?? null,
+            ]);
+        });
 
         return response()->json($job->load('company'));
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -91,6 +107,7 @@ class JobController extends Controller
     public function destroy($id)
     {
         $job = Job::findOrFail($id);
+        $this->authorize('delete', $job);
         $job->delete();
         return response()->noContent();
     }

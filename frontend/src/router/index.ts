@@ -9,6 +9,7 @@ import EditJobPage from "../views/EditJobPage.vue";
 import LoginView from "@/views/LoginView.vue";
 import { useAuthStore } from "@/stores/auth";
 import RegisterView from "@/views/RegisterView.vue";
+import { jobOwnerGuard } from '@/guards/jobOwnerGuard'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -95,6 +96,7 @@ const router = createRouter({
             name: "EditJob",
             component: MainLayout,
             meta: { requiresAuth: true },
+            beforeEnter: jobOwnerGuard,
             children: [
                 {
                     path: "",
