@@ -19,7 +19,7 @@ class JobController extends Controller
 
     public function index()
     {
-        return Job::with('company')->get();
+        return Job::with('company')->latest()->get();
     }
 
     /**

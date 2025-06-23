@@ -51,8 +51,10 @@ const isOwner = computed(() => {
 
 onMounted(async () => {
     try {
-        await auth.fetchUser();
-        //Type-Safety in API Response
+        if (auth.isAuthenticated) {
+            await auth.fetchUser();
+        }
+
         const response = await api.get<Job>(`/jobs/${jobId}`);
         job.value = response.data;
     } catch (error) {

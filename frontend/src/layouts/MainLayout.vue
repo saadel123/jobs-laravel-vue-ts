@@ -29,12 +29,13 @@ const toggleTheme = () => {
                 <v-icon v-else>mdi-weather-night</v-icon>
             </v-btn>
 
-            <!-- Authenticated Navigation -->
-            <template v-if="authStore.isAuthenticated">
-                <v-btn variant="text" to="/">Home</v-btn>
-                <v-btn variant="text" to="/jobs">Jobs</v-btn>
-                <v-btn variant="text" to="/jobs/add">Add Job</v-btn>
+            <!-- Navigation Buttons: visible to everyone -->
+            <v-btn variant="text" to="/">Home</v-btn>
+            <v-btn variant="text" to="/jobs">Jobs</v-btn>
+            <v-btn variant="text" to="/jobs/add">Add Job</v-btn>
 
+            <!-- Auth Buttons -->
+            <template v-if="authStore.isAuthenticated">
                 <!-- User Menu Dropdown -->
                 <v-menu>
                     <template v-slot:activator="{ props }">
@@ -44,7 +45,7 @@ const toggleTheme = () => {
                         </v-btn>
                     </template>
                     <v-list>
-                        <v-list-item @click="authStore.logout" :disabled="authStore.loggingOut">
+                        <v-list-item @click="authStore.logout">
                             <v-list-item-title>
                                 <v-icon left>mdi-logout</v-icon>
                                 Logout
@@ -59,6 +60,7 @@ const toggleTheme = () => {
                 <v-btn variant="text" to="/login">Login</v-btn>
                 <v-btn variant="text" to="/register">Register</v-btn>
             </template>
+
         </v-app-bar>
 
         <!-- Main Content -->
@@ -82,7 +84,7 @@ const toggleTheme = () => {
 html,
 body,
 .v-theme--dark.v-application {
-  background-color: #212121 !important;
+    background-color: #212121 !important;
 }
 
 

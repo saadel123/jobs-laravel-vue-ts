@@ -1,31 +1,32 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\JobController;
 use App\Http\Controllers\AuthController;
-use App\Models\Job;
+use Illuminate\Http\Request;
 
-// Public routes
+// Auth Routes
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
-// Protected routes (require authentication)
+// Public Job Routes
+Route::get('/jobs', [JobController::class, 'index']);
+Route::get('/jobs/{job}', [JobController::class, 'show']);
+
+// Protected Routes
 Route::middleware('auth:sanctum')->group(function () {
-    // Authentication
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/user', fn(Request $request) => $request->user());
 
-    // User data
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    // Ownership check for frontend guards
+    // Route::get('/jobs/{job}/check-ownership', [JobController::class, 'checkOwnership']);
 
-    //Check ownerschip
-    Route::get('/jobs/{job}/check-ownership', [JobController::class, 'checkOwnership']);
-
-    // Jobs resource
-    Route::apiResource('jobs', JobController::class);
+    // Job management routes
+    Route::post('/jobs', [JobController::class, 'store']);
+    Route::put('/jobs/{job}', [JobController::class, 'update']);
+    Route::delete('/jobs/{job}', [JobController::class, 'destroy']);
 });
+
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
