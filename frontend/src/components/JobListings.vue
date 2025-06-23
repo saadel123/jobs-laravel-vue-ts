@@ -54,7 +54,7 @@ onMounted(async () => {
     try {
         //No need for axios now because am using api with pinia auth
         // const response = await axios.get("/api/jobs")
-        const response = await api.get("/jobs")
+        const response = await api.get<Job[]>("/jobs")
         jobs.value = response.data
     } catch (error) {
         console.error("Error Fetching jobs:" + error)

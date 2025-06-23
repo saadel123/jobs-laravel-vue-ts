@@ -55,6 +55,7 @@ const truncatedDescription = computed(() => {
                     </v-icon>
                 </v-btn>
             </div>
+            we can use watch for example with api calls for exampe we have pagination and the user want to paginate to the page 7 so here we should use watch and not computed
 
             <!-- Salary and Location -->
             <div class="mt-auto">

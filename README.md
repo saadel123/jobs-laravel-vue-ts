@@ -11,6 +11,7 @@ A modern, responsive Job Board Single Page Application built with Laravel and Vu
 - **Laravel 12** - PHP framework with elegant syntax
 - **Sanctum API** - Lightweight authentication system for SPAs
 - **RESTful Architecture** - Clean, standardized API endpoints
+- **Policy-Based Authorization** - Protects job and company resources so only the owning user can update or delete them
 
 ### Frontend
 - **Vue 3** - JavaScript framework
@@ -34,6 +35,7 @@ A modern, responsive Job Board Single Page Application built with Laravel and Vu
 
 ### Development Advantages
 - **Modular Component Architecture** for clean, reusable code
+- **Policy-Driven Security** using Laravel Policies to enforce access rules server-side
 - **Type Safety** across frontend and backend
 - **Form Validation** with clear error messages
 
