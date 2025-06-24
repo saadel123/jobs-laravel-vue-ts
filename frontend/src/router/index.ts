@@ -3,14 +3,15 @@ import HomeView from "../views/HomeView.vue";
 import JobsView from "../views/JobsView.vue";
 import JobDetailsView from "../views/JobDetailsView.vue";
 import AddJobPage from "../views/AddJobPage.vue";
+import MyJobsView from "../views/MyJobsView.vue";
 import MainLayout from "../layouts/MainLayout.vue";
 import NotFoundView from "../views/NotFoundView.vue";
 import EditJobPage from "../views/EditJobPage.vue";
 import LoginView from "@/views/LoginView.vue";
 import { useAuthStore } from "@/stores/auth";
 import RegisterView from "@/views/RegisterView.vue";
-import { jobOwnerGuard } from '@/guards/jobOwnerGuard'
-import { useSnackbar } from '@/composables/useSnackbar';
+import { jobOwnerGuard } from "@/guards/jobOwnerGuard";
+import { useSnackbar } from "@/composables/useSnackbar";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -107,6 +108,20 @@ const router = createRouter({
             ],
         },
         {
+            path: "/profile/jobs",
+            name: "MyJobs",
+            component: MainLayout,
+            meta: { requiresAuth: true },
+            children: [
+                {
+                    path: "",
+                    name: "MyJobsView",
+                    component: MyJobsView,
+                },
+            ],
+        },
+
+        {
             path: "/:catchAll(.*)",
             component: MainLayout,
             // meta: { requiresAuth: true },
@@ -125,9 +140,9 @@ router.beforeEach((to, from, next) => {
     const auth = useAuthStore();
     if (to.meta.requiresAuth && !auth.isAuthenticated) {
         // Trigger snackbar ONLY for the add job route
-        if (to.name === 'AddJobPage') {
+        if (to.name === "AddJobPage") {
             const { trigger } = useSnackbar();
-            trigger("Please connect first to add a job", 'error');
+            trigger("Please connect first to add a job", "error");
         }
         next("/login");
     } else {

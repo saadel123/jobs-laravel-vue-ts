@@ -36,6 +36,7 @@ const toggleTheme = () => {
 
             <!-- Auth Buttons -->
             <template v-if="authStore.isAuthenticated">
+
                 <!-- User Menu Dropdown -->
                 <v-menu>
                     <template v-slot:activator="{ props }">
@@ -44,10 +45,38 @@ const toggleTheme = () => {
                             Account
                         </v-btn>
                     </template>
+
                     <v-list>
-                        <v-list-item @click="authStore.logout">
+                        <!-- My Jobs -->
+                        <v-list-item :to="{ path: '/profile/jobs' }" link>
                             <v-list-item-title>
-                                <v-icon left>mdi-logout</v-icon>
+                                <v-icon left class="mr-2">mdi-briefcase</v-icon>
+                                My Jobs
+                            </v-list-item-title>
+                        </v-list-item>
+
+                        <!-- Edit Profile -->
+                        <v-list-item :to="{ path: '/profile/user' }" link>
+                            <v-list-item-title>
+                                <v-icon left class="mr-2">mdi-account-circle</v-icon>
+                                Profile Info
+                            </v-list-item-title>
+                        </v-list-item>
+
+                        <!-- Company Info -->
+                        <v-list-item :to="{ path: '/profile/company' }" link>
+                            <v-list-item-title>
+                                <v-icon left class="mr-2">mdi-domain</v-icon>
+                                Company Info
+                            </v-list-item-title>
+                        </v-list-item>
+
+                        <v-divider class="my-1" />
+
+                        <!-- Logout -->
+                        <v-list-item @click="authStore.logout" class="text-red">
+                            <v-list-item-title>
+                                <v-icon left class="mr-2 text-red">mdi-logout</v-icon>
                                 Logout
                             </v-list-item-title>
                         </v-list-item>

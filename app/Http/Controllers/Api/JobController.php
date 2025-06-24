@@ -13,20 +13,22 @@ use Illuminate\Support\Facades\DB;
 class JobController extends Controller
 {
     use AuthorizesRequests;
-    /**
-     * Display a listing of the resource.
-     */
 
+    /**
+     * Display a listing of all job listings with their companies.
+     */
     public function index()
     {
         return Job::with('company')->latest()->get();
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created job along with its associated company.
+     * Uses a DB transaction to ensure both records are created atomically.
      */
     public function store(Request $request)
     {
+        // Validate job and nested company data
         $validated = $request->validate([
             'type' => 'required|string',
             'title' => 'required|string',
@@ -39,7 +41,9 @@ class JobController extends Controller
             'company.contact_phone' => 'nullable|string',
         ]);
 
+        // Use DB transaction to ensure both job and company are created together
         $job = DB::transaction(function () use ($validated) {
+            // Create company linked to the authenticated user
             $company = Company::create([
                 'user_id' => Auth::id(),
                 'name' => $validated['company']['name'],
@@ -48,14 +52,15 @@ class JobController extends Controller
                 'contact_phone' => $validated['company']['contact_phone'] ?? null,
             ]);
 
+            // Create job for that company
             return $company->jobs()->create($validated);
         });
 
         return response()->json($job->load('company'), 201);
-
     }
+
     /**
-     * Display the specified resource.
+     * Display a specific job listing along with its company.
      */
     public function show($id)
     {
@@ -63,14 +68,17 @@ class JobController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified job and its related company.
+     * Authorization ensures only owners can edit.
      */
     public function update(Request $request, $id)
     {
         $job = Job::with('company')->findOrFail($id);
 
+        // Check if the user is authorized to update this job
         $this->authorize('update', $job);
 
+        // Validate job and company fields
         $validated = $request->validate([
             'type' => 'required|string',
             'title' => 'required|string',
@@ -83,12 +91,10 @@ class JobController extends Controller
             'company.contact_phone' => 'nullable|string',
         ]);
 
-        // Database transaction for atomic updates
+        // Perform atomic update for job and company using a transaction
         DB::transaction(function () use ($job, $validated) {
-            // Update job
             $job->update($validated);
 
-            // Update associated company
             $job->company()->update([
                 'name' => $validated['company']['name'],
                 'description' => $validated['company']['description'],
@@ -100,15 +106,19 @@ class JobController extends Controller
         return response()->json($job->load('company'));
     }
 
-
     /**
-     * Remove the specified resource from storage.
+     * Delete a job listing.
+     * Authorization ensures only the owner can delete it.
      */
     public function destroy($id)
     {
         $job = Job::findOrFail($id);
+
+        // Ensure only authorized users can delete
         $this->authorize('delete', $job);
+
         $job->delete();
+
         return response()->noContent();
     }
 }
