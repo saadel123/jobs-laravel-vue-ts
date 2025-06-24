@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import JobListing from '@/components/JobListing.vue'
+import JobListing from '@/components/job/JobListing.vue'
 import type { Job } from '@/types/job'
 import api from '@/api'
 import { useSnackbar } from '@/composables/useSnackbar'

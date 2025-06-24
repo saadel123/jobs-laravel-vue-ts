@@ -1,15 +1,15 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import JobsView from "../views/JobsView.vue";
-import JobDetailsView from "../views/JobDetailsView.vue";
-import AddJobPage from "../views/AddJobPage.vue";
-import MyJobsView from "../views/MyJobsView.vue";
+import HomeView from "../views/home/HomeView.vue";
+import JobsView from "../views/jobs/JobsView.vue";
+import JobDetailsView from "../views/jobs/JobDetailsView.vue";
+import AddJobPage from "../views/jobs/AddJobPage.vue";
+import MyJobsView from "../views/jobs/MyJobsView.vue";
 import MainLayout from "../layouts/MainLayout.vue";
-import NotFoundView from "../views/NotFoundView.vue";
-import EditJobPage from "../views/EditJobPage.vue";
-import LoginView from "@/views/LoginView.vue";
+import NotFoundView from "../views/not-found/NotFoundView.vue";
+import EditJobPage from "../views/jobs/EditJobPage.vue";
+import LoginView from "@/views/auth/LoginView.vue";
 import { useAuthStore } from "@/stores/auth";
-import RegisterView from "@/views/RegisterView.vue";
+import RegisterView from "@/views/auth/RegisterView.vue";
 import { jobOwnerGuard } from "@/guards/jobOwnerGuard";
 import { useSnackbar } from "@/composables/useSnackbar";
 

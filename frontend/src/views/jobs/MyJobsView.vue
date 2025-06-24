@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import JobBrowser from '@/components/JobBrowser.vue'
+import JobBrowser from '@/components/job/JobBrowser.vue'
 </script>
 
 <template>

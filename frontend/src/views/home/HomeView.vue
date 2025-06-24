@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import HomeCard from "@/components/HomeCard.vue"
-import JobListings from "@/components/JobListings.vue";
+import HomeCard from "@/components/ui/HomeCard.vue"
+import JobListings from "@/components/job/JobListings.vue";
 </script>
 
 <template>

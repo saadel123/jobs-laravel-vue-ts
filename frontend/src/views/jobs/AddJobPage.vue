@@ -2,9 +2,9 @@
 import { ref } from 'vue';
 import router from '@/router';
 import { useSnackbar } from '@/composables/useSnackbar';
-import JobForm from '@/components/JobForm.vue';
+import JobForm from '@/components/job/JobForm.vue';
 import type { Job } from '@/types/job';
-import api from '../api';
+import api from '../../api';
 
 
 const { trigger } = useSnackbar();

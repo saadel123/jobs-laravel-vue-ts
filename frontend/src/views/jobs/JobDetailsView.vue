@@ -2,9 +2,9 @@
 import { ref, onMounted, computed } from 'vue'
 import type { Job } from "@/types/job"
 import { useRoute, useRouter } from 'vue-router'
-import BackButton from '@/components/BackButton.vue'
+import BackButton from '@/components/layout/BackButton.vue'
 import { useSnackbar } from '@/composables/useSnackbar'
-import api from '../api'
+import api from '../../api'
 import { useTheme } from 'vuetify'
 import { useAuthStore } from '@/stores/auth'
 import { getJobTypeColor } from '@/utils/job';
