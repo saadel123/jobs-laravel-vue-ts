@@ -1,36 +1,76 @@
 <script setup lang="ts">
 import { ref, watch, toRefs } from 'vue';
 import type { Job } from '@/types/job';
+import { useSnackbar } from '@/composables/useSnackbar';
+import { isEqual, cloneDeep } from 'lodash-es';
+
+const { trigger } = useSnackbar();
 
 const props = defineProps<{
-    modelValue: Job;
-    isEditMode?: boolean;
+    modelValue: Job;       // Job data passed from parent component
+    isEditMode?: boolean;  // Flag to differentiate between add/edit mode
 }>();
 const emit = defineEmits<{
-    (e: 'update:modelValue', value: Job): void;
-    (e: 'submit', value: Job): void;
+    (e: 'update:modelValue', value: Job): void;  // Sync changes to parent
+    (e: 'submit', value: Job): void;             // Trigger submit event with updated data
 }>();
 
 const { modelValue } = toRefs(props);
-const localForm = ref<Job>({ ...modelValue.value });
+
+// Create a deep copy of the prop to avoid mutating it directly
+const localForm = ref<Job>(cloneDeep(modelValue.value));
+
+// Watch localForm and emit updates so parent component stays in sync
 watch(localForm, (val) => emit('update:modelValue', val), { deep: true });
 
-const formRef = ref();
-const formValid = ref(false);
+// Keep a snapshot of the initial form data for change detection on submit
+const initialForm = ref<Job>(cloneDeep(modelValue.value));
 
+const formRef = ref();      // Reference to the v-form component
+const formValid = ref(false);  // Tracks form validation status
+const loading = ref(false);     // Tracks submission/loading state
+
+// Static options for dropdowns in the form
 const jobTypes = ['Full-Time', 'Part-Time', 'Remote', 'Internship'];
 const salaryRanges = ['Under $50K', '$50K - $60K', '$60K - $70K', 'Over $200K'];
 
+// Validation rules used by Vuetify form inputs
 const rules = {
     required: (v: string) => !!v || 'This field is required',
     email: (v: string) => !v || /^\S+@\S+\.\S+$/.test(v) || 'Invalid email',
 };
 
 const onSubmit = async () => {
+    // Trigger validation on the form, skip if invalid
     const isValid = await formRef.value?.validate();
-    if (isValid?.valid) emit('submit', localForm.value);
+    if (!isValid?.valid) return;
+
+    // Prevent unnecessary updates if user hasn't changed anything
+    if (isEqual(localForm.value, initialForm.value)) {
+        trigger('No changes detected, update skipped.', 'info');
+        return;
+    }
+
+    loading.value = true;  // Show loading state during submit
+    try {
+        // Emit submit event to parent with the updated form data
+        await emit('submit', localForm.value);
+
+        // Notify user of success based on mode
+        trigger(props.isEditMode ? 'Job updated successfully!' : 'Job added successfully!');
+
+        // Update initial snapshot to current state after successful save
+        initialForm.value = cloneDeep(localForm.value);
+    } catch (error) {
+        // Show error notification on failure
+        trigger('Failed to submit job', 'error');
+    } finally {
+        loading.value = false;  // Reset loading state
+    }
 };
 </script>
+
+
 
 <template>
     <v-container class="max-width">

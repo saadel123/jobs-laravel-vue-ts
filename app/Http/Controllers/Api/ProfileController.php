@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Job;
 use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -25,17 +26,33 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        // Validate incoming data (adjust rules if allowing password changes)
         $validated = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email',
-            // Add password validation if editing password
+            'name' => 'required|string|max:255',
+            // 'email' => 'required|email|unique:users,email,' . $user->id,
+            'old_password' => 'required_with:password|string',
+            'password' => 'nullable|string|min:6|confirmed',
         ]);
 
-        $user->update($validated);
+        // If the user wants to change the password, verify old password
+        if (!empty($validated['password'])) {
+            if (!Hash::check($validated['old_password'], $user->password)) {
+                return response()->json([
+                    'errors' => ['old_password' => ['Le mot de passe actuel est incorrect.']]
+                ], 422);
+            }
+
+            $user->password = bcrypt($validated['password']);
+        }
+
+        $user->name = $validated['name'];
+        // $user->email = $validated['email'];
+        $user->save();
 
         return response()->json($user);
     }
+
+
+
 
     /**
      * Get the company associated with the authenticated user.
