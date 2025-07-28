@@ -60,9 +60,6 @@ git clone https://github.com/saadel123/jobs-laravel-vue-ts.git
 
 ```bash
 cp .env.example .env
-# After copying the .env file, clear the configuration and cache:
-php artisan config:clear
-php artisan cache:clear
 ```
 
 Configure these key variables in `.env`:
@@ -97,6 +94,10 @@ php artisan key:generate
 
 # Run migrations with seed
 php artisan migrate --seed
+
+# Clear the configuration and cache:
+php artisan config:clear
+php artisan cache:clear
 ```
 
 _Default test user created:_
