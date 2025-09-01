@@ -65,4 +65,6 @@ Route::middleware('auth:sanctum')->group(function () {
         // Jobs owned by the authenticated user
         Route::get('/jobs', [ProfileController::class, 'getJobs']);
     });
+
+    Route::get('/me/company', [ProfileController::class, 'company']);
 });

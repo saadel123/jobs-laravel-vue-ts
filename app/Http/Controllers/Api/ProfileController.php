@@ -51,9 +51,6 @@ class ProfileController extends Controller
         return response()->json($user);
     }
 
-
-
-
     /**
      * Get the company associated with the authenticated user.
      */
@@ -97,5 +94,18 @@ class ProfileController extends Controller
             ->get();
 
         return response()->json($jobs);
+    }
+
+    /**
+     * Get the company information for the authenticated user.
+     */
+    public function company(Request $request)
+    {
+        $user = $request->user();
+        $company = $user->company;
+        if (!$company) {
+            return response()->json(['error' => 'No company found for user'], 404);
+        }
+        return response()->json($company);
     }
 }

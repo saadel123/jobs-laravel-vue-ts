@@ -28,33 +28,22 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate job and nested company data
+        $user = Auth::user();
+        $company = $user->company; // assumes User hasOne Company
+
+        if (!$company) {
+            return response()->json(['error' => 'No company found for user'], 400);
+        }
+
         $validated = $request->validate([
             'type' => 'required|string',
             'title' => 'required|string',
             'description' => 'required|string',
             'salary' => 'required|string',
             'location' => 'required|string',
-            'company.name' => 'required|string',
-            'company.description' => 'required|string',
-            'company.contact_email' => 'required|email',
-            'company.contact_phone' => 'nullable|string',
         ]);
 
-        // Use DB transaction to ensure both job and company are created together
-        $job = DB::transaction(function () use ($validated) {
-            // Create company linked to the authenticated user
-            $company = Company::create([
-                'user_id' => Auth::id(),
-                'name' => $validated['company']['name'],
-                'description' => $validated['company']['description'],
-                'contact_email' => $validated['company']['contact_email'],
-                'contact_phone' => $validated['company']['contact_phone'] ?? null,
-            ]);
-
-            // Create job for that company
-            return $company->jobs()->create($validated);
-        });
+        $job = $company->jobs()->create($validated);
 
         return response()->json($job->load('company'), 201);
     }
@@ -78,30 +67,16 @@ class JobController extends Controller
         // Check if the user is authorized to update this job
         $this->authorize('update', $job);
 
-        // Validate job and company fields
+        // Validate only job fields
         $validated = $request->validate([
             'type' => 'required|string',
             'title' => 'required|string',
             'description' => 'required|string',
             'salary' => 'required|string',
             'location' => 'required|string',
-            'company.name' => 'required|string',
-            'company.description' => 'required|string',
-            'company.contact_email' => 'required|email',
-            'company.contact_phone' => 'nullable|string',
         ]);
 
-        // Perform atomic update for job and company using a transaction
-        DB::transaction(function () use ($job, $validated) {
-            $job->update($validated);
-
-            $job->company()->update([
-                'name' => $validated['company']['name'],
-                'description' => $validated['company']['description'],
-                'contact_email' => $validated['company']['contact_email'],
-                'contact_phone' => $validated['company']['contact_phone'] ?? null,
-            ]);
-        });
+        $job->update($validated);
 
         return response()->json($job->load('company'));
     }

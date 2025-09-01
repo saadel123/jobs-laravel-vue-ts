@@ -3,6 +3,7 @@ import { ref, watch, toRefs } from 'vue';
 import type { Job } from '@/types/job';
 import { useSnackbar } from '@/composables/useSnackbar';
 import { isEqual, cloneDeep } from 'lodash-es';
+import router from '@/router';
 
 const { trigger } = useSnackbar();
 
@@ -17,11 +18,13 @@ const emit = defineEmits<{
 
 const { modelValue } = toRefs(props);
 
-// Create a deep copy of the prop to avoid mutating it directly
+// Existing localForm
 const localForm = ref<Job>(cloneDeep(modelValue.value));
 
-// Watch localForm and emit updates so parent component stays in sync
-watch(localForm, (val) => emit('update:modelValue', val), { deep: true });
+// Keep localForm updated when parent modelValue changes
+watch(modelValue, (newVal) => {
+    localForm.value = cloneDeep(newVal);
+}, { deep: true, immediate: true });
 
 // Keep a snapshot of the initial form data for change detection on submit
 const initialForm = ref<Job>(cloneDeep(modelValue.value));
@@ -68,9 +71,11 @@ const onSubmit = async () => {
         loading.value = false;  // Reset loading state
     }
 };
+
+function goToEditCompany() {
+    router.push('/profile/company');
+}
 </script>
-
-
 
 <template>
     <v-container class="max-width">
@@ -80,7 +85,7 @@ const onSubmit = async () => {
                     {{ isEditMode ? 'Edit Job' : 'Add Job' }}
                 </h2>
 
-                <!-- Fields -->
+                <!-- Job Fields -->
                 <v-select v-model="localForm.type" :items="jobTypes" label="Job Type" variant="outlined"
                     :rules="[rules.required]" class="mb-4" />
                 <v-text-field v-model="localForm.title" label="Job Title" variant="outlined" :rules="[rules.required]"
@@ -93,14 +98,18 @@ const onSubmit = async () => {
                     class="mb-4" />
 
                 <h3 class="text-h4 mb-5">Company Info</h3>
-                <v-text-field v-model="localForm.company.name" label="Company Name" variant="outlined"
-                    :rules="[rules.required]" class="mb-4" />
+                <v-text-field v-model="localForm.company.name" label="Company Name" variant="outlined" readonly
+                    class="mb-4" />
                 <v-textarea v-model="localForm.company.description" label="Company Description" variant="outlined"
-                    rows="4" :rules="[rules.required]" class="mb-4" />
+                    rows="4" readonly class="mb-4" />
                 <v-text-field v-model="localForm.company.contact_email" label="Contact Email" type="email"
-                    variant="outlined" :rules="[rules.required, rules.email]" class="mb-4" />
+                    variant="outlined" readonly class="mb-4" />
                 <v-text-field v-model="localForm.company.contact_phone" label="Contact Phone" type="tel"
-                    variant="outlined" class="mb-4" />
+                    variant="outlined" readonly class="mb-4" />
+
+                <v-btn color="primary" class="mb-6" @click.prevent="goToEditCompany">
+                    Edit Company Info
+                </v-btn>
 
                 <v-btn type="submit" color="green-darken-2" size="large" block class="text-white">
                     {{ isEditMode ? 'Update Job' : 'Add Job' }}
